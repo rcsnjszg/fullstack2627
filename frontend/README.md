@@ -1,10 +1,10 @@
-# Vue alap | 2627
+# Vue alap | 2627 TypeScript
 
 > Az alap tartalmaz minden olyan csomagot amely az órai feladatok elkészítéséhez szükséges.
 
 ## Tartalom
 
-- [Vue alap | 2627](#vue-alap-2627)
+- [Vue alap | 2627 TypeScript](#vue-alap-2627-typescript)
   - [Tartalom](#tartalom)
   - [Node és a Vite kezelése](#node-és-a-vite-kezelése)
     - [Telepítés](#telepítés)

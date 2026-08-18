@@ -2,9 +2,9 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const useCounter = defineStore('counter', () => {
-  const counter = ref(0)
+  const counter = ref<number>(0)
 
-  function increment(step = 1) {
+  function increment(step: number = 1): void {
     counter.value += step
   }
 

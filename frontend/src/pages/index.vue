@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import BaseLayout from '@layouts/BaseLayout.vue'
-import { useCounter } from '@stores/CounterStore.js'
+import { useCounter } from '@stores/CounterStore'
 
 const counter = useCounter()
 </script>

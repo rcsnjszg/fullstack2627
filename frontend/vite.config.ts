@@ -6,7 +6,7 @@ import VueDevtools from 'vite-plugin-vue-devtools'
 import VueRouter from 'vue-router/vite'
 import TailwindCSS from '@tailwindcss/vite'
 
-export default ({ mode }) => {
+export default ({ mode }: { mode: string }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
 
   return defineConfig({

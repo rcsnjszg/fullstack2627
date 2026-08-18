@@ -1,15 +1,11 @@
-<script setup>
+<script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
-import { NavigationMenuLink, useForwardPropsEmits } from 'reka-ui'
+import { NavigationMenuLink, type NavigationMenuLinkEmits, type NavigationMenuLinkProps, useForwardPropsEmits } from 'reka-ui'
 import { cn } from '@/lib/utils'
 
-const props = defineProps({
-  active: { type: Boolean, required: false },
-  asChild: { type: Boolean, required: false },
-  as: { type: [String, Object, Function], required: false },
-  class: { type: null, required: false }
-})
-const emits = defineEmits(['select'])
+const props = defineProps<NavigationMenuLinkProps & { class?: HTMLAttributes['class'] }>()
+const emits = defineEmits<NavigationMenuLinkEmits>()
 
 const delegatedProps = reactiveOmit(props, 'class')
 const forwarded = useForwardPropsEmits(delegatedProps, emits)

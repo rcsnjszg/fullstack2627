@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import BaseHeader from '@components/layout/BaseHeader.vue'
 </script>
 
