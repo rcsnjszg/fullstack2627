@@ -33,7 +33,11 @@ run-migrations SEED="":
     else \
         docker compose exec backend php artisan migrate; \
     fi
-    
+
+fix-jsonserver:
+    @docker compose build jsonserver
+    @docker compose restart jsonserver
+
 # Initialize project
 [arg('FLAGS', pattern='^(--seed|-s)( (--seed|-s))*$')]
 init *FLAGS: frontend-init responsive-init

@@ -6,6 +6,7 @@ import 'package:shelf_router/shelf_router.dart';
 
 import 'package:dart_server/app_config.dart';
 import 'package:dart_server/browser_ui.dart';
+import 'package:dart_server/cors_middleware.dart';
 import 'package:dart_server/database.dart';
 import 'package:dart_server/handler.dart';
 import 'package:dart_server/routes_middleware.dart';
@@ -18,13 +19,13 @@ Future<void> main(List<String> args) async {
   final config = AppConfig.load('$dataDir/config.json');
   final routes = loadRoutes('$dataDir/routes.json');
 
-  // Mount browser UI at / and delegate everything else to the CRUD handler.
   final root = Router()
     ..get('/', buildBrowserUiHandler(db))
     ..mount('/', buildHandler(db: db, config: config));
 
   final handler = Pipeline()
       .addMiddleware(logRequests())
+      .addMiddleware(corsHeaders())
       .addMiddleware(routesMiddleware(routes))
       .addHandler(root.call);
 
