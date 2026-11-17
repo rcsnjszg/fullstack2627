@@ -191,3 +191,112 @@ services:
     depends_on:
       proxy:
         condition: service_started
+
+  tailwind:
+    image: docs/tailwind
+    pull_policy: missing
+    build:
+      context: tailwind
+      dockerfile: Dockerfile
+      args:
+        TAILWIND_DOCS_REF: ${TAILWIND_DOCS_REF:-main}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.tailwind-docs.rule: "Host(`${DOMAIN_DOCS_TAILWIND}`)"
+      traefik.http.routers.tailwind-docs.entrypoints: web
+      traefik.http.services.tailwind-docs.loadbalancer.server.port: "80"
+
+  vue:
+    image: docs/vue
+    pull_policy: missing
+    build:
+      context: vue
+      dockerfile: Dockerfile
+      args:
+        VUE_DOCS_REF: ${VUE_DOCS_REF:-main}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vue-docs.rule: "Host(`${DOMAIN_DOCS_VUE}`)"
+      traefik.http.routers.vue-docs.entrypoints: web
+      traefik.http.services.vue-docs.loadbalancer.server.port: "80"
+
+  vue-router:
+    image: docs/vue-router
+    pull_policy: missing
+    build:
+      context: vue-router
+      dockerfile: Dockerfile
+      args:
+        VUE_ROUTER_DOCS_REF: ${VUE_ROUTER_DOCS_REF:-main}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vue-router-docs.rule: "Host(`${DOMAIN_DOCS_VUE_ROUTER}`)"
+      traefik.http.routers.vue-router-docs.entrypoints: web
+      traefik.http.services.vue-router-docs.loadbalancer.server.port: "80"
+
+  pinia:
+    image: docs/pinia
+    pull_policy: missing
+    build:
+      context: pinia
+      dockerfile: Dockerfile
+      args:
+        VUE_ROUTER_REF: ${PINIA_DOCS_REF:-v3}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.pinia-docs.rule: "Host(`${DOMAIN_DOCS_PINIA}`)"
+      traefik.http.routers.pinia-docs.entrypoints: web
+      traefik.http.services.pinia-docs.loadbalancer.server.port: "80"
+  shadcn:
+    image: docs/shadcn
+    pull_policy: missing
+    build:
+      context: shadcn
+      dockerfile: Dockerfile
+      args:
+        SHADCN_UI_REF: ${SHADCN_UI_REF:-main}
+        NEXT_PUBLIC_APP_URL: http://${DOMAIN_DOCS_SHADCN}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.shadcn-docs.rule: "Host(`${DOMAIN_DOCS_SHADCN}`)"
+      traefik.http.routers.shadcn-docs.entrypoints: web
+      traefik.http.services.shadcn-docs.loadbalancer.server.port: "4000"
+
+  laravel:
+    image: docs/laravel
+    pull_policy: missing
+    build:
+      context: laravel
+      dockerfile: Dockerfile
+      args:
+        LARAVEL_DOCS_REF: ${LARAVEL_DOCS_REF:-13.x}
+    restart: unless-stopped
+    networks:
+      - fullstack
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.laravel-docs.rule: "Host(`${DOMAIN_DOCS_LARAVEL}`)"
+      traefik.http.routers.laravel-docs.entrypoints: web
+      traefik.http.services.laravel-docs.loadbalancer.server.port: "80"
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
